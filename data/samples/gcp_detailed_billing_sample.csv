@@ -1,0 +1,12 @@
+billing_account_id,service.description,sku.description,project.id,location.zone,cost,currency,usage.amount,usage.unit,resource.name,resource_type,status_hint,attached_vm,idle_days,snapshot_age_days,labels
+01A2B3-4C5D6E-7F8G9H,Compute Engine,SSD backed Persistent Disk,finops-prod-infra,us-central1-a,85.50,USD,0,hours,disk-prod-db-replica-detached,disk,unattached,,45,0,"{""env"":""prod"",""team"":""data""}"
+01A2B3-4C5D6E-7F8G9H,Compute Engine,Standard Persistent Disk,finops-dev-sandbox,europe-west1-b,42.00,USD,0,hours,disk-dev-temp-scratch-unattached,disk,unattached,,62,0,"{""env"":""dev"",""team"":""backend""}"
+01A2B3-4C5D6E-7F8G9H,Compute Engine,Static IP Charge,finops-prod-infra,us-central1,14.40,USD,720,hours,ip-static-nat-unassigned-1,ip,unattached,,30,0,"{""env"":""prod""}"
+01A2B3-4C5D6E-7F8G9H,Compute Engine,Static IP Charge,finops-staging,asia-east1,14.40,USD,720,hours,ip-static-proxy-legacy,ip,unattached,,55,0,"{""env"":""staging""}"
+01A2B3-4C5D6E-7F8G9H,Compute Engine,N1 Predefined Instance Core,finops-dev-sandbox,us-central1-b,138.20,USD,0,hours,vm-ml-training-stopped,instance,stopped,,32,0,"{""env"":""dev"",""owner"":""research""}"
+01A2B3-4C5D6E-7F8G9H,Compute Engine,Storage Snapshot,finops-prod-infra,us,35.00,USD,350,byte-months,snapshot-legacy-migration-2025,snapshot,stale,,0,195,"{""retention"":""manual""}"
+01A2B3-4C5D6E-7F8G9H,Compute Engine,Storage Snapshot,finops-staging,us,22.80,USD,228,byte-months,snapshot-qa-testrun-old,snapshot,stale,,0,88,"{""env"":""qa""}"
+01A2B3-4C5D6E-7F8G9H,Compute Engine,N2 Predefined Instance Core,finops-prod-infra,us-central1-a,245.00,USD,720,hours,vm-core-api-primary,instance,active,attached,0,0,"{""env"":""prod"",""criticality"":""tier-1""}"
+01A2B3-4C5D6E-7F8G9H,Compute Engine,SSD backed Persistent Disk,finops-prod-infra,us-central1-a,95.00,USD,720,hours,disk-core-api-boot,disk,active,vm-core-api-primary,0,0,"{""env"":""prod""}"
+01A2B3-4C5D6E-7F8G9H,Cloud SQL,Cloud SQL for PostgreSQL: Zonal - 4 vCPU,finops-prod-infra,us-central1,180.00,USD,720,hours,sql-prod-postgres,sql,active,,0,0,"{""env"":""prod""}"
+01A2B3-4C5D6E-7F8G9H,Cloud Storage,Standard Storage US Regional,finops-prod-infra,us-central1,48.50,USD,1940,gibibyte-month,bucket-prod-assets,storage,active,,0,0,"{""env"":""prod""}"

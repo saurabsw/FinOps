@@ -1,0 +1,47 @@
+[
+  {
+    "billing_account_id": "01A2B3-4C5D6E-7F8G9H",
+    "service": {"description": "Compute Engine"},
+    "sku": {"description": "SSD backed Persistent Disk"},
+    "project": {"id": "finops-data-lake"},
+    "location": {"zone": "us-east4-c"},
+    "cost": 125.00,
+    "currency": "USD",
+    "usage": {"amount": 0, "unit": "hours"},
+    "resource": {"name": "disk-datalake-etl-orphaned"},
+    "resource_type": "disk",
+    "status_hint": "unattached",
+    "idle_days": 75,
+    "labels": {"pipeline": "nightly-etl", "status": "deprecated"}
+  },
+  {
+    "billing_account_id": "01A2B3-4C5D6E-7F8G9H",
+    "service": {"description": "Compute Engine"},
+    "sku": {"description": "Static IP Charge"},
+    "project": {"id": "finops-data-lake"},
+    "location": {"zone": "us-east4"},
+    "cost": 14.40,
+    "currency": "USD",
+    "usage": {"amount": 720, "unit": "hours"},
+    "resource": {"name": "ip-datalake-ingress-idle"},
+    "resource_type": "ip",
+    "status_hint": "unattached",
+    "idle_days": 40,
+    "labels": {"tier": "dmz"}
+  },
+  {
+    "billing_account_id": "01A2B3-4C5D6E-7F8G9H",
+    "service": {"description": "Compute Engine"},
+    "sku": {"description": "N1 Predefined Instance Core"},
+    "project": {"id": "finops-staging"},
+    "location": {"zone": "europe-west3-a"},
+    "cost": 89.60,
+    "currency": "USD",
+    "usage": {"amount": 0, "unit": "hours"},
+    "resource": {"name": "vm-staging-testbench-idle"},
+    "resource_type": "instance",
+    "status_hint": "stopped",
+    "idle_days": 45,
+    "labels": {"env": "staging"}
+  }
+]

@@ -1,0 +1,4 @@
+ResourceId,ConsumedService,MeterCategory,SubscriptionId,ResourceLocation,CostInBillingCurrency,BillingCurrency,UsageQuantity,UnitOfMeasure,resource_type,status_hint,idle_days
+/subscriptions/1111-2222-3333/resourceGroups/rg-data/providers/Microsoft.Compute/disks/disk-unattached-analytics,Microsoft.Compute,Managed Disks,1111-2222-3333,eastus,75.00,USD,0,Hours,disk,unattached,60
+/subscriptions/1111-2222-3333/resourceGroups/rg-net/providers/Microsoft.Network/publicIPAddresses/pip-idle-gateway,Microsoft.Network,Public IP Addresses,1111-2222-3333,eastus,8.50,USD,720,Hours,ip,unattached,45
+/subscriptions/1111-2222-3333/resourceGroups/rg-core/providers/Microsoft.Compute/virtualMachines/vm-deallocated-dev,Microsoft.Compute,Virtual Machines,1111-2222-3333,westeurope,115.00,USD,0,Hours,instance,stopped,25

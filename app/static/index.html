@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Static FinOps Analyzer</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+          <polyline points="16 7 22 7 22 13"></polyline>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">Static FinOps Analyzer</div>
+        <div class="brand-subtitle">Multi-Cloud FinOps Analyzer & Safe Remediation Engine (GCP, AWS, Azure)</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-target="view-dashboard">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        Overview & Remediation
+      </button>
+      <button class="tab-btn" data-target="view-resources">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        Loaded Cloud Resources
+      </button>
+      <button class="tab-btn" data-target="view-rules">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        Policy Rules
+      </button>
+      <button class="tab-btn" data-target="view-ingest">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        Ingestion
+      </button>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button class="btn btn-primary" onclick="triggerScan()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        Run Scan
+      </button>
+      <button class="btn btn-success" onclick="downloadRemediationScript()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Export Script
+      </button>
+    </div>
+  </header>
+
+  <!-- Container -->
+  <main class="app-container">
+
+    <!-- VIEW 1: Overview & Waste Remediation -->
+    <section id="view-dashboard" class="view-section active">
+      
+      <!-- Top Action Bar -->
+      <div class="control-bar">
+        <div>
+          <h2 style="font-size:1.15rem; font-weight:700;">FinOps Executive Dashboard</h2>
+          <p style="font-size:0.8rem; color:var(--text-muted);">Real-time cost anomaly identification and safe 2-step interactive remediation</p>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="triggerLoadSamples()">
+            🚀 Load Sample Datasets (GCP + Multi-Cloud)
+          </button>
+          <button class="btn btn-danger" onclick="triggerClearDatabase()">
+            🗑️ Reset Database
+          </button>
+        </div>
+      </div>
+
+      <!-- 4-Step Operational Workflow Guide -->
+      <div class="card" style="margin-bottom:1.5rem; background:rgba(30, 41, 59, 0.4); border:1px solid rgba(255,255,255,0.08);">
+        <div style="font-weight:700; font-size:0.92rem; margin-bottom:0.75rem; color:#60a5fa; display:flex; align-items:center; gap:0.5rem;">
+          <span>📖</span> How the 4-Step FinOps Flow Works
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1rem;">
+          <div style="background:rgba(15, 23, 42, 0.6); padding:0.85rem; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+            <div style="font-weight:700; font-size:0.85rem; color:#38bdf8; margin-bottom:0.3rem;">1. Ingest Billing Data</div>
+            <div style="font-size:0.78rem; color:var(--text-secondary);">Go to <b>Ingestion</b> tab to upload CSV/JSON exports, or click <b>'🚀 Load Sample Datasets'</b> to test immediately.</div>
+          </div>
+          <div style="background:rgba(15, 23, 42, 0.6); padding:0.85rem; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+            <div style="font-weight:700; font-size:0.85rem; color:#38bdf8; margin-bottom:0.3rem;">2. Run Optimization Scan</div>
+            <div style="font-size:0.78rem; color:var(--text-secondary);">Click <b>'Run Scan'</b> in the top right to evaluate resources against vendor best practices and custom rules.</div>
+          </div>
+          <div style="background:rgba(15, 23, 42, 0.6); padding:0.85rem; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+            <div style="font-weight:700; font-size:0.85rem; color:#38bdf8; margin-bottom:0.3rem;">3. Review Waste Queue</div>
+            <div style="font-size:0.78rem; color:var(--text-secondary);">Check the KPI cards and findings table below for orphaned disks, idle IPs, stopped VMs, and aged snapshots.</div>
+          </div>
+          <div style="background:rgba(15, 23, 42, 0.6); padding:0.85rem; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+            <div style="font-weight:700; font-size:0.85rem; color:#38bdf8; margin-bottom:0.3rem;">4. Safe 2-Step Remediation</div>
+            <div style="font-size:0.78rem; color:var(--text-secondary);">Click <b>🔍 Inspect</b> for read-only metadata verification, or <b>⚡ Remediate</b> to copy safe commands or export script.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-spend">
+          <div class="kpi-label">Gross Cloud Spend</div>
+          <div class="kpi-value" id="kpi-gross-spend">$0.00</div>
+          <div class="kpi-subtext" id="kpi-resources-count">0 Resources Tracked</div>
+        </div>
+        <div class="kpi-card kpi-waste">
+          <div class="kpi-label">Identified Cost Leakage</div>
+          <div class="kpi-value" id="kpi-leakage">$0.00</div>
+          <div class="kpi-subtext"><span id="kpi-findings-count">0</span> Waste Items Detected</div>
+        </div>
+        <div class="kpi-card kpi-savings">
+          <div class="kpi-label">Potential Monthly Savings</div>
+          <div class="kpi-value" style="color:#10B981;" id="kpi-savings-pct">0.0%</div>
+          <div class="kpi-subtext">Immediate Net ROI</div>
+        </div>
+        <div class="kpi-card kpi-percent">
+          <div class="kpi-label">Remediation Policy</div>
+          <div class="kpi-value" style="font-size:1.4rem;">2-Step Gate</div>
+          <div class="kpi-subtext">Zero Destructive Force Flags</div>
+        </div>
+      </div>
+
+      <!-- Breakdown Analytics Cards -->
+      <div class="analytics-grid">
+        <div class="card">
+          <div class="card-title">
+            <span>Spend Leakage by Category</span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">Monthly Waste</span>
+          </div>
+          <div id="category-breakdown-list">
+            <!-- Dynamic Category List -->
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">
+            <span>Spend by Cloud Provider</span>
+            <span style="font-size:0.75rem; color:var(--text-muted);">Canonical Mapping</span>
+          </div>
+          <div id="provider-breakdown-list">
+            <!-- Dynamic Provider List -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Waste Findings Section -->
+      <div class="card">
+        <div class="card-title" style="flex-wrap:wrap; gap:1rem;">
+          <div>
+            <span>Detected Waste Findings & Remediation Queue</span>
+            <p style="font-size:0.78rem; font-weight:400; color:var(--text-muted); margin-top:0.2rem;">
+              Enforces Inspect-then-Confirm protocol: Step 1 displays live metadata, Step 2 executes without force flags.
+            </p>
+          </div>
+          <div class="btn-group">
+            <select id="filter-provider" class="btn btn-secondary" onchange="loadWasteFindings()">
+              <option value="">All Providers</option>
+              <option value="gcp">Google Cloud (GCP)</option>
+              <option value="aws">AWS</option>
+              <option value="azure">Azure</option>
+            </select>
+            <select id="filter-severity" class="btn btn-secondary" onchange="loadWasteFindings()">
+              <option value="">All Severities</option>
+              <option value="CRITICAL">Critical</option>
+              <option value="HIGH">High</option>
+              <option value="MEDIUM">Medium</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Severity</th>
+                <th>Provider</th>
+                <th>Resource Name</th>
+                <th>Category</th>
+                <th>Est. Savings</th>
+                <th>Detection Justification</th>
+                <th>2-Step Actions</th>
+              </tr>
+            </thead>
+            <tbody id="waste-table-body">
+              <!-- Dynamically populated findings -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- VIEW 2: Canonical Resources Explorer -->
+    <section id="view-resources" class="view-section">
+      <div class="card">
+        <div class="card-title">
+          <div>
+            <span>Canonical Cloud Resource Inventory</span>
+            <p style="font-size:0.78rem; font-weight:400; color:var(--text-muted); margin-top:0.2rem;">
+              Normalized cloud schema across GCP, AWS, and Azure billing exports stored in SQLite
+            </p>
+          </div>
+          <button class="btn btn-secondary" onclick="loadResourcesTable()">↻ Refresh</button>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Provider</th>
+                <th>Resource Name & ID</th>
+                <th>Type</th>
+                <th>Region / Zone</th>
+                <th>Cost</th>
+                <th>Status Hint</th>
+                <th>Usage</th>
+              </tr>
+            </thead>
+            <tbody id="resources-table-body">
+              <!-- Dynamically populated resources -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: Policy Rules Catalog & Configurator -->
+    <section id="view-rules" class="view-section">
+      <div class="card">
+        <div class="card-title">
+          <div>
+            <span>Two-Tier FinOps Rules Catalog</span>
+            <p style="font-size:0.78rem; font-weight:400; color:var(--text-muted); margin-top:0.2rem;">
+              Tier 1: Built-in deterministic vendor best practices | Tier 2: Declarative custom policy configurator
+            </p>
+          </div>
+          <button class="btn btn-primary" onclick="openCustomRuleModal()">+ New Custom Policy</button>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Tier</th>
+                <th>Policy Rule</th>
+                <th>Category</th>
+                <th>Severity</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="rules-table-body">
+              <!-- Dynamically populated rules -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: Billing Ingestion & Upload -->
+    <section id="view-ingest" class="view-section">
+      <div class="card" style="max-width:760px; margin:0 auto;">
+        <h3 style="margin-bottom:0.5rem; font-size:1.1rem;">Upload Cloud Billing Export</h3>
+        <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1.5rem;">
+          Ingests GCP Detailed Usage CSV/JSON, AWS Cost and Usage Report (CUR), or Azure Cost Export.
+        </p>
+
+        <div style="margin-bottom:1.25rem;">
+          <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:0.4rem;">Cloud Provider</label>
+          <select id="upload-provider-select" class="btn btn-secondary" style="width:100%; text-align:left;">
+            <option value="">Auto-Detect Provider</option>
+            <option value="gcp">Google Cloud Platform (GCP Detailed Export)</option>
+            <option value="aws">Amazon Web Services (AWS CUR)</option>
+            <option value="azure">Microsoft Azure Cost Export</option>
+          </select>
+        </div>
+
+        <label class="dropzone" for="billing-file-input">
+          <input type="file" id="billing-file-input" accept=".csv,.json" style="display:none;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2" style="margin-bottom:0.75rem;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <div style="font-weight:600; font-size:1rem; margin-bottom:0.25rem;">Choose a billing export file or drag & drop</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">Supports .csv and .json exports from GCP BigQuery, AWS CUR, Azure</div>
+        </label>
+
+        <!-- Test Samples Download Box -->
+        <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border-color);">
+          <h4 style="font-size:0.95rem; font-weight:700; margin-bottom:0.5rem; color:#60a5fa;">📥 Need Sample Files to Test Ingestion?</h4>
+          <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:1rem;">Download any of our pre-packaged realistic cloud billing exports and drag & drop them into the upload box above:</p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+            <a href="/api/v1/billing/samples/gcp_detailed_billing_sample.csv" download class="btn btn-secondary" style="font-size:0.78rem; text-decoration:none; justify-content:center;">
+              ⬇️ GCP Detailed Usage (.csv)
+            </a>
+            <a href="/api/v1/billing/samples/gcp_billing_sample.json" download class="btn btn-secondary" style="font-size:0.78rem; text-decoration:none; justify-content:center;">
+              ⬇️ GCP BigQuery Export (.json)
+            </a>
+            <a href="/api/v1/billing/samples/aws_cur_sample.csv" download class="btn btn-secondary" style="font-size:0.78rem; text-decoration:none; justify-content:center;">
+              ⬇️ AWS Cost & Usage CUR (.csv)
+            </a>
+            <a href="/api/v1/billing/samples/azure_cost_export_sample.csv" download class="btn btn-secondary" style="font-size:0.78rem; text-decoration:none; justify-content:center;">
+              ⬇️ Azure Cost Export (.csv)
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL 1: Inspect Command (Step 1) -->
+  <div id="inspect-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="inspect-modal-title" style="font-size:1rem;">Inspect Resource</h3>
+        <button class="btn btn-secondary" style="padding:0.2rem 0.5rem;" onclick="closeInspectModal()">✕</button>
+      </div>
+      <div id="inspect-resource-meta" style="font-size:0.82rem; color:var(--text-secondary); margin-bottom:1rem;"></div>
+      <p style="font-size:0.82rem; color:var(--text-muted);">
+        <strong>Read-Only Inspection:</strong> Run this command in your terminal or cloud shell to inspect tags, attachments, and dependencies without modifying resources.
+      </p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode('inspect-command-code')">Copy</button>
+        <span id="inspect-command-code"></span>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
+        <button class="btn btn-secondary" onclick="closeInspectModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Remediate Confirmation Gate (Step 2) -->
+  <div id="remediate-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="remediate-modal-title" style="font-size:1rem; color:#f87171;">Safe Remediation Gate</h3>
+        <button class="btn btn-secondary" style="padding:0.2rem 0.5rem;" onclick="closeRemediateModal()">✕</button>
+      </div>
+      <div id="remediate-warning-text" style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:1rem;"></div>
+      
+      <div style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:var(--radius-md); padding:0.75rem 1rem; font-size:0.78rem; color:#fca5a5; margin-bottom:1rem;">
+        🛡️ <strong>Safety Guarantee:</strong> All non-interactive force flags (<code>--quiet</code>, <code>-y</code>, <code>-f</code>) have been verified absent. The cloud CLI will prompt for interactive confirmation before deletion.
+      </div>
+
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode('remediate-command-code')">Copy</button>
+        <span id="remediate-command-code"></span>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem;">
+        <button class="btn btn-secondary" onclick="closeRemediateModal()">Cancel</button>
+        <button id="remediate-confirm-btn" class="btn btn-success">Mark Remediated & Archive</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Custom Rule Configurator (Tier 2) -->
+  <div id="custom-rule-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size:1rem;">Create Declarative FinOps Policy</h3>
+        <button class="btn btn-secondary" style="padding:0.2rem 0.5rem;" onclick="closeCustomRuleModal()">✕</button>
+      </div>
+      <form onsubmit="createCustomRuleFromForm(event)">
+        <div style="margin-bottom:0.85rem;">
+          <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Policy Name</label>
+          <input type="text" id="rule-form-name" required placeholder="e.g., Stale Dev Disks > $30" class="btn btn-secondary" style="width:100%; text-align:left; cursor:text;">
+        </div>
+        <div style="margin-bottom:0.85rem;">
+          <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Description</label>
+          <input type="text" id="rule-form-desc" placeholder="Explain rule purpose..." class="btn btn-secondary" style="width:100%; text-align:left; cursor:text;">
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.85rem;">
+          <div>
+            <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Provider</label>
+            <select id="rule-form-provider" class="btn btn-secondary" style="width:100%; text-align:left;">
+              <option value="*">All (*)</option>
+              <option value="gcp">GCP</option>
+              <option value="aws">AWS</option>
+              <option value="azure">Azure</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Resource Type</label>
+            <select id="rule-form-type" class="btn btn-secondary" style="width:100%; text-align:left;">
+              <option value="*">All (*)</option>
+              <option value="disk">disk</option>
+              <option value="ip">ip</option>
+              <option value="instance">instance</option>
+              <option value="snapshot">snapshot</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.85rem;">
+          <div>
+            <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Min Monthly Cost ($)</label>
+            <input type="number" id="rule-form-min-cost" value="25" class="btn btn-secondary" style="width:100%; text-align:left; cursor:text;">
+          </div>
+          <div>
+            <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Status Hint</label>
+            <select id="rule-form-status" class="btn btn-secondary" style="width:100%; text-align:left;">
+              <option value="">Any Status</option>
+              <option value="unattached">unattached</option>
+              <option value="idle">idle</option>
+              <option value="stopped">stopped</option>
+              <option value="stale">stale</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:1.25rem;">
+          <label style="font-size:0.75rem; font-weight:600; display:block; margin-bottom:0.25rem;">Severity</label>
+          <select id="rule-form-severity" class="btn btn-secondary" style="width:100%; text-align:left;">
+            <option value="HIGH">HIGH</option>
+            <option value="CRITICAL">CRITICAL</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="LOW">LOW</option>
+          </select>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeCustomRuleModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Policy Rule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
