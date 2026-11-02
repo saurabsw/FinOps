@@ -1,4 +1,4 @@
-# Static FinOps Analyzer
+# Static FinOps Analyzer 
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.135%2B-green.svg)](https://fastapi.tiangolo.com)
